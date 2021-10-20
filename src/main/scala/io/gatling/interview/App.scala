@@ -1,22 +1,21 @@
 package io.gatling.interview
 
-import io.gatling.interview.service.ComputerService
-import io.gatling.interview.http.api.ComputerDatabaseApi
-import io.gatling.interview.repository.ComputerRepository
-
 import cats.effect._
 import cats.implicits._
-import com.twitter.finagle.http.{ Request, Response }
-import com.twitter.finagle.{ Http, ListeningServer, Service }
+import com.twitter.finagle.http.{Request, Response}
+import com.twitter.finagle.{Http, ListeningServer, Service}
 import com.twitter.util.Future
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 import io.finch.ToAsync
+import io.gatling.interview.http.api.ComputerDatabaseApi
+import io.gatling.interview.repository.{CompanyRepository, ComputerRepository}
+import io.gatling.interview.service.ComputerService
 import pureconfig.ConfigSource
 import pureconfig.module.catseffect.syntax.CatsEffectConfigSource
 
 import java.util.concurrent.{ExecutorService, Executors}
 
-final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
+final class App[F[_] : ConcurrentEffect : ContextShift : Timer] {
 
   private val logger = Slf4jLogger.getLogger[F]
   private val configSource = ConfigSource.default.at("app")
@@ -40,7 +39,8 @@ final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
     for {
       appResources <- appResources(config)
       computerRepository = new ComputerRepository[F]()
-      computerService = new ComputerService[F](computerRepository)
+      companyRepository = new CompanyRepository[F]()
+      computerService = new ComputerService[F](computerRepository, companyRepository)
       api = new ComputerDatabaseApi[F](computerService)
       server <- server(
         api.service,

@@ -11,5 +11,6 @@ object ComputerCreate {
 
 final case class ComputerCreate(name: String,
                                 introduced: Option[LocalDate],
-                                discontinued: Option[LocalDate]
+                                discontinued: Option[LocalDate],
+                                companyId: Option[String]
                                )

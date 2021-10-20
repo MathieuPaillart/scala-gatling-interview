@@ -1,51 +1,59 @@
 [
   {
-    "id" : "ad2559c4-0f2c-4689-8784-ccdf718a5469",
-    "name" : "MacBook Pro 15.4 inch",
-    "introduced" : null,
-    "discontinued" : null
+    "id": "ad2559c4-0f2c-4689-8784-ccdf718a5469",
+    "name": "MacBook Pro 15.4 inch",
+    "introduced": null,
+    "discontinued": null,
+    "companyId": "913e0699-0792-4fc0-882b-535750fd9254"
   },
   {
-    "id" : "0cf49191-c889-432c-9fb7-1ee422c215ed",
-    "name" : "CM-2a",
-    "introduced" : null,
-    "discontinued" : null
+    "id": "0cf49191-c889-432c-9fb7-1ee422c215ed",
+    "name": "CM-2a",
+    "introduced": null,
+    "discontinued": null,
+    "companyId": "ce94b983-e8d0-4161-b06f-b3d43f785d01"
   },
   {
-    "id" : "515787e9-d54f-4d50-a2c9-19f9e64f0d4f",
-    "name" : "CM-200",
-    "introduced" : null,
-    "discontinued" : null
+    "id": "515787e9-d54f-4d50-a2c9-19f9e64f0d4f",
+    "name": "CM-200",
+    "introduced": null,
+    "discontinued": null,
+    "companyId": "ce94b983-e8d0-4161-b06f-b3d43f785d01"
   },
   {
-    "id" : "11a936f9-afc8-40e1-bf4f-9ac3575dfd98",
-    "name" : "CM-5e",
-    "introduced" : null,
-    "discontinued" : null
+    "id": "11a936f9-afc8-40e1-bf4f-9ac3575dfd98",
+    "name": "CM-5e",
+    "introduced": null,
+    "discontinued": null,
+    "companyId": "ce94b983-e8d0-4161-b06f-b3d43f785d01"
   },
   {
-    "id" : "a25b18a1-541a-4e2f-b724-c763d1ecbca7",
-    "name" : "CM-5",
-    "introduced" : "1991-01-01",
-    "discontinued" : null
+    "id": "a25b18a1-541a-4e2f-b724-c763d1ecbca7",
+    "name": "CM-5",
+    "introduced": "1991-01-01",
+    "discontinued": null,
+    "companyId": "ce94b983-e8d0-4161-b06f-b3d43f785d01"
   },
   {
-    "id" : "35510142-062d-4a13-a6d1-b5fb253f96c0",
-    "name" : "MacBook Pro",
-    "introduced" : "2006-01-10",
-    "discontinued" : null
+    "id": "35510142-062d-4a13-a6d1-b5fb253f96c0",
+    "name": "MacBook Pro",
+    "introduced": "2006-01-10",
+    "discontinued": null,
+    "companyId": "913e0699-0792-4fc0-882b-535750fd9254"
   },
   {
-    "id" : "a9eb6397-7c8f-4dc7-a2fe-cd5e2c579450",
-    "name" : "Apple IIe",
-    "introduced" : null,
-    "discontinued" : null
+    "id": "a9eb6397-7c8f-4dc7-a2fe-cd5e2c579450",
+    "name": "Apple IIe",
+    "introduced": null,
+    "discontinued": null,
+    "companyId": "913e0699-0792-4fc0-882b-535750fd9254"
   },
   {
-    "id" : "492f2107-6bfb-49f8-9a74-3e9f033aaa9f",
-    "name" : "Apple IIee",
-    "introduced" : "2006-01-10",
-    "discontinued" : "2010-01-10"
+    "id": "492f2107-6bfb-49f8-9a74-3e9f033aaa9f",
+    "name": "Apple IIee",
+    "introduced": "2006-01-10",
+    "discontinued": "2010-01-10",
+    "companyId": "913e0699-0792-4fc0-882b-535750fd9254"
   },
   {
     "id" : "d9e04f12-8c89-41dd-a48a-a2ff754c572d",

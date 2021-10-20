@@ -13,6 +13,8 @@ object Computer {
     deriveEncoder[Computer]
       .apply(computer)
       .mapObject(json => json.add("lifetime", computer.lifetime.asJson))
+      .mapObject(json => json.add("companyName", computer.companyName.asJson))
+      .mapObject(json => json.remove("companyId"))
       .deepDropNullValues
   }
 }
@@ -21,7 +23,8 @@ final case class Computer(
                            id: String,
                            name: String,
                            introduced: Option[LocalDate],
-                           discontinued: Option[LocalDate]
+                           discontinued: Option[LocalDate],
+                           companyId: Option[String],
                          ) {
   val lifetime: Option[Long] = {
     if (introduced.isDefined && discontinued.isDefined) {
@@ -30,5 +33,9 @@ final case class Computer(
       None
     }
   }
+  var companyName: Option[String] = None
 
+  def setCompanyName(name: String): Unit = {
+    companyName = Option(name)
+  }
 }
