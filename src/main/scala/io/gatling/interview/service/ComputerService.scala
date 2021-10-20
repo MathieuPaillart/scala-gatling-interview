@@ -1,10 +1,11 @@
 package io.gatling.interview.service
 
-import io.gatling.interview.model.{Computer, ComputerCreate}
-import io.gatling.interview.repository.ComputerRepository
 import cats.effect.Sync
 import cats.implicits._
 import io.finch.{Ok, Output}
+import io.gatling.interview.dto.ComputerCreate
+import io.gatling.interview.model.Computer
+import io.gatling.interview.repository.ComputerRepository
 
 class ComputerService[F[_]](computerRepository: ComputerRepository[F])(implicit F: Sync[F]) {
 

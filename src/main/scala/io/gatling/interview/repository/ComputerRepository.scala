@@ -2,13 +2,10 @@ package io.gatling.interview.repository
 
 import cats.effect.Sync
 import io.circe
-import io.circe.Json
 import io.circe.syntax.EncoderOps
 import io.gatling.interview.model.Computer
 
-import java.io.IOException
-import java.nio.file.Paths
-import java.nio.file.Files
+import java.nio.file.{Files, Paths}
 import scala.io.Source
 import scala.util.Using
 class ComputerRepository[F[_]](implicit F: Sync[F]) {

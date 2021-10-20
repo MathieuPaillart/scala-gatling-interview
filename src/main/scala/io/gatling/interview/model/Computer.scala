@@ -1,13 +1,20 @@
 package io.gatling.interview.model
 
-import java.time.LocalDate
-
 import io.circe._
 import io.circe.generic.semiauto._
+import io.circe.syntax.EncoderOps
+
+import java.time.LocalDate
+import java.time.temporal._
 
 object Computer {
   implicit val decoder: Decoder[Computer] = deriveDecoder[Computer]
-  implicit val encoder: Encoder[Computer] = deriveEncoder[Computer]
+  implicit val encoder: Encoder[Computer] = (computer: Computer) => {
+    deriveEncoder[Computer]
+      .apply(computer)
+      .mapObject(json => json.add("lifetime", computer.lifetime.asJson))
+      .deepDropNullValues
+  }
 }
 
 final case class Computer(
@@ -15,13 +22,13 @@ final case class Computer(
                            name: String,
                            introduced: Option[LocalDate],
                            discontinued: Option[LocalDate]
-                         )
+                         ) {
+  val lifetime: Option[Long] = {
+    if (introduced.isDefined && discontinued.isDefined) {
+      Option(ChronoUnit.MONTHS.between(introduced.get, discontinued.get))
+    } else {
+      None
+    }
+  }
 
-object ComputerCreate {
-  implicit val decoder: Decoder[ComputerCreate] = deriveDecoder
 }
-
-final case class ComputerCreate(name: String,
-                                introduced: Option[LocalDate],
-                                discontinued: Option[LocalDate]
-                               )
