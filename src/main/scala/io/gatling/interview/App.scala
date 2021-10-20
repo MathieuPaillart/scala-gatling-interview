@@ -1,6 +1,6 @@
 package io.gatling.interview
 
-import io.gatling.interview.handler.ComputerHandler
+import io.gatling.interview.service.ComputerService
 import io.gatling.interview.http.api.ComputerDatabaseApi
 import io.gatling.interview.repository.ComputerRepository
 
@@ -14,7 +14,7 @@ import io.finch.ToAsync
 import pureconfig.ConfigSource
 import pureconfig.module.catseffect.syntax.CatsEffectConfigSource
 
-import java.util.concurrent.{ ExecutorService, Executors }
+import java.util.concurrent.{ExecutorService, Executors}
 
 final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
 
@@ -40,8 +40,8 @@ final class App[F[_]: ConcurrentEffect: ContextShift: Timer] {
     for {
       appResources <- appResources(config)
       computerRepository = new ComputerRepository[F]()
-      computerHandler = new ComputerHandler[F](computerRepository)
-      api = new ComputerDatabaseApi[F](computerHandler)
+      computerService = new ComputerService[F](computerRepository)
+      api = new ComputerDatabaseApi[F](computerService)
       server <- server(
         api.service,
         config.server,

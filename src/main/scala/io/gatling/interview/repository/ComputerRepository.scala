@@ -1,15 +1,37 @@
 package io.gatling.interview.repository
 
+import cats.effect.Sync
+import io.circe
+import io.circe.Json
+import io.circe.syntax.EncoderOps
 import io.gatling.interview.model.Computer
 
-import cats.effect.Sync
-
-import java.time.LocalDate
-
+import java.io.IOException
+import java.nio.file.Paths
+import java.nio.file.Files
+import scala.io.Source
+import scala.util.Using
 class ComputerRepository[F[_]](implicit F: Sync[F]) {
-  def fetchAll(): F[Seq[Computer]] = F.pure(
-    Seq(Computer(1L, "Laptop", Some(LocalDate.of(1970, 10, 25)), None), Computer(2L, "toto", Some(LocalDate.of(1989, 10, 5)), Some(LocalDate.of(1998, 5, 15))))
+  def findAll(): F[Seq[Computer]] = F.pure(
+    computersList
   )
 
-  def insert(): F[Unit] = F.unit
+  def save(computer: Computer): F[Unit] = F.pure{
+    val newList = computersList :+ computer
+    Files.writeString(Paths.get("src/main/resources/data/computers.json"), newList.asJson.toString())
+  }
+
+  private val computersList : Seq[Computer] = {
+    val bufferedSource = Source.fromResource("data/computers.json")
+    Using(bufferedSource){ reader =>
+      val rawJson = reader.mkString
+      val parseResult = circe.parser.parse(rawJson)
+      parseResult match {
+        case Left(parsingError) =>
+          throw new IllegalArgumentException(s"Invalid JSON object: ${parsingError.message}")
+        case Right(json) =>
+          circe.parser.decode[Seq[Computer]](json.toString()).getOrElse(throw new IllegalArgumentException(s"The json found isn't a list of computers: $json"))
+      }
+    }.get
+  }
 }
