@@ -13,6 +13,10 @@ class CompanyRepository[F[_]](implicit F: Sync[F]) {
   )
 
   def findCompanyById(id: String): F[Company] = F.pure(
-    companiesList.find(company => id.equals(company.id)).getOrElse(throw new IllegalArgumentException("No company found with id: " + id))
+    //would maybe be better to let scala throw an exception here if the element is not present ?
+    companiesList.find(_.id.equals(id)) match {
+      case Some(company) => company
+      //what to do here if None ? // if throw is disabled it is useful to have a case None ?
+    }
   )
 }

@@ -14,7 +14,6 @@ object Computer {
       .apply(computer)
       .mapObject(json => json.add("lifetime", computer.lifetime.asJson))
       .mapObject(json => json.add("companyName", computer.companyName.asJson))
-      .mapObject(json => json.remove("companyId"))
       .deepDropNullValues
   }
 }
@@ -28,11 +27,12 @@ final case class Computer(
                          ) {
   val lifetime: Option[Long] = {
     if (introduced.isDefined && discontinued.isDefined) {
-      Option(ChronoUnit.MONTHS.between(introduced.get, discontinued.get))
+      Option(ChronoUnit.MONTHS.between(introduced.fold(LocalDate.MIN)(localDate => localDate), discontinued.fold(LocalDate.MIN) { localDate => localDate }))
     } else {
       None
     }
   }
+  //val is immutable so can't do that, var is disabled so not right either. Design flow here
   var companyName: Option[String] = None
 
   def setCompanyName(name: String): Unit = {

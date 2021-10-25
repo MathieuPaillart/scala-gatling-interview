@@ -19,7 +19,7 @@ class ComputerService[F[_]](computerRepository: ComputerRepository[F], companyRe
     val uuid = java.util.UUID.randomUUID.toString
     if (companyId.isDefined) {
       //Here it will throw an exception if it doesn't exist, should have been caught by the calling method but doesn't work.
-      companyRepository.findCompanyById(companyId.get)
+      companyRepository.findCompanyById(companyId.fold("") { companyId => companyId })
     }
     val computer = Computer(uuid, computerCreate.name, computerCreate.introduced, computerCreate.discontinued, companyId)
     computerRepository.save(computer).map(Ok)

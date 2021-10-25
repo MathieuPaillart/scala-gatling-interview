@@ -9,28 +9,33 @@ import java.nio.file.{Files, Paths}
 import scala.io.Source
 import scala.util.Using
 class ComputerRepository[F[_]](implicit F: Sync[F]) {
+
   private val computersList: Seq[Computer] = {
     val bufferedSource = Source.fromResource("data/computers.json")
     Using(bufferedSource) { reader =>
       val rawJson = reader.mkString
       val parseResult = circe.parser.parse(rawJson)
       parseResult match {
-        case Left(parsingError) =>
-          throw new IllegalArgumentException(s"Invalid JSON object: ${parsingError.message}")
+        //what to do in case of parsing error ?
+        // case Left(parsingError) =>
+        //   throw new IllegalArgumentException(s"Invalid JSON object: ${parsingError.message}")
         case Right(json) =>
-          circe.parser.decode[Seq[Computer]](json.toString()).getOrElse(throw new IllegalArgumentException(s"The json found isn't a list of computers: $json"))
+          circe.parser.decode[Seq[Computer]](json.toString).getOrElse(Seq.empty)
       }
-    }.get
+    }.getOrElse(Seq.empty)
   }
 
   def findAll(companies: Seq[Company]): F[Seq[Computer]] = F.pure {
-    var computers: Seq[Computer] = Seq.empty
+    val computers: Seq[Computer] = Seq.empty
     computersList.foreach(computer => {
       if (computer.companyId.isDefined) {
-        val company = companies.filter(company => company.id.equals(computer.companyId.get)).head
-        computer.setCompanyName(company.name)
+        companies.find(company => company.id.equals(computer.companyId.fold("") { companyId => companyId })) match {
+          case Some(company) => {
+            computer.setCompanyName(company.name)
+          }
+        }
       }
-      computers = computers :+ computer
+      computers :: List(computer)
     })
     computers
   }
